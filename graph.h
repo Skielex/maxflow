@@ -68,6 +68,12 @@
 // NOTE: in UNIX you need to use -DNDEBUG preprocessor option to supress assert's!!!
 
 
+typedef enum termtype
+{
+	SOURCE	= 0,
+	SINK	= 1
+}; // terminals 
+typedef int node_id;
 
 // captype: type of edge capacities (excluding t-links)
 // tcaptype: type of t-links (edges between nodes and terminals)
@@ -77,12 +83,6 @@
 template <typename captype, typename tcaptype, typename flowtype> class Graph
 {
 public:
-	typedef enum
-	{
-		SOURCE	= 0,
-		SINK	= 1
-	} termtype; // terminals 
-	typedef int node_id;
 
 	/////////////////////////////////////////////////////////////////////////
 	//                     BASIC INTERFACE FUNCTIONS                       //
@@ -379,7 +379,7 @@ private:
 
 
 template <typename captype, typename tcaptype, typename flowtype> 
-	inline typename Graph<captype,tcaptype,flowtype>::node_id Graph<captype,tcaptype,flowtype>::add_node(int num)
+	inline node_id Graph<captype,tcaptype,flowtype>::add_node(int num)
 {
 	assert(num > 0);
 
@@ -484,7 +484,7 @@ template <typename captype, typename tcaptype, typename flowtype>
 
 
 template <typename captype, typename tcaptype, typename flowtype> 
-	inline typename Graph<captype,tcaptype,flowtype>::termtype Graph<captype,tcaptype,flowtype>::what_segment(node_id i, termtype default_segm)
+	inline termtype Graph<captype,tcaptype,flowtype>::what_segment(node_id i, termtype default_segm)
 {
 	if (nodes[i].parent)
 	{
