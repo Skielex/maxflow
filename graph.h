@@ -1,6 +1,7 @@
 /* graph.h */
 /*
     Copyright Vladimir Kolmogorov (vnk@ist.ac.at), Yuri Boykov (yuri@csd.uwo.ca) 
+	Modifications Copyright 2018 Niels Jeppesen (niejep@dtu.dk).
 
     This file is part of MAXFLOW.
 
@@ -101,7 +102,7 @@ public:
 	// Also, temporarily the amount of allocated memory would be more than twice than needed.
 	// Similarly for edges.
 	// If you wish to avoid this overhead, you can download version 2.2, where nodes and edges are stored in blocks.
-	Graph(int node_num_max, int edge_num_max, void (*err_function)(const char *) = NULL);
+	Graph(int node_num_max, long long edge_num_max, void (*err_function)(const char *) = NULL);
 
 	// Destructor
 	~Graph();
@@ -180,7 +181,7 @@ public:
 
 	// other functions for reading graph structure
 	int get_node_num() { return node_num; }
-	int get_arc_num() { return (int)(arc_last - arcs); }
+	long long get_arc_num() { return (long long)(arc_last - arcs); }
 	void get_arc_ends(arc_id a, node_id& i, node_id& j); // returns i,j to that a = i->j
 
 	///////////////////////////////////////////////////
@@ -287,7 +288,7 @@ private:
 		arc			*parent;	// node's parent
 		node		*next;		// pointer to the next active node
 								//   (or to itself if it is the last node in the list)
-		long			TS;			// timestamp showing when DIST was computed
+		long long	TS;			// timestamp showing when DIST was computed
 		int			DIST;		// distance to the terminal
 		int			is_sink : 1;	// flag showing whether the node is in the source or in the sink tree (if parent!=NULL)
 		int			is_marked : 1;	// set by mark_node()
@@ -335,7 +336,7 @@ private:
 
 	node				*queue_first[2], *queue_last[2];	// list of active nodes
 	nodeptr				*orphan_first, *orphan_last;		// list of pointers to orphans
-	long					TIME;								// monotonically increasing global counter
+	long long			TIME;								// monotonically increasing global counter
 
 	/////////////////////////////////////////////////////////////////////////
 
