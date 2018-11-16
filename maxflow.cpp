@@ -129,13 +129,13 @@ template <typename captype, typename tcaptype, typename flowtype>
 	for (i=nodes; i<node_last; i++)
 	{
 		i -> next = NULL;
-		i -> is_marked = 0;
-		i -> is_in_changed_list = 0;
+		i -> is_marked = false;
+		i -> is_in_changed_list = false;
 		i -> TS = TIME;
 		if (i->tr_cap > 0)
 		{
 			/* i is connected to the source */
-			i -> is_sink = 0;
+			i -> is_sink = false;
 			i -> parent = TERMINAL;
 			set_active(i);
 			i -> DIST = 1;
@@ -143,7 +143,7 @@ template <typename captype, typename tcaptype, typename flowtype>
 		else if (i->tr_cap < 0)
 		{
 			/* i is connected to the sink */
-			i -> is_sink = 1;
+			i -> is_sink = true;
 			i -> parent = TERMINAL;
 			set_active(i);
 			i -> DIST = 1;
@@ -175,7 +175,7 @@ template <typename captype, typename tcaptype, typename flowtype>
 		queue = i->next;
 		if (queue == i) queue = NULL;
 		i->next = NULL;
-		i->is_marked = 0;
+		i->is_marked = false;
 		set_active(i);
 
 		if (i->tr_cap == 0)
@@ -188,7 +188,7 @@ template <typename captype, typename tcaptype, typename flowtype>
 		{
 			if (!i->parent || i->is_sink)
 			{
-				i->is_sink = 0;
+				i->is_sink = false;
 				for (a=i->first; a; a=a->next)
 				{
 					j = a->head;
@@ -205,7 +205,7 @@ template <typename captype, typename tcaptype, typename flowtype>
 		{
 			if (!i->parent || !i->is_sink)
 			{
-				i->is_sink = 1;
+				i->is_sink = true;
 				for (a=i->first; a; a=a->next)
 				{
 					j = a->head;
@@ -512,7 +512,7 @@ template <typename captype, typename tcaptype, typename flowtype>
 				j = a -> head;
 				if (!j->parent)
 				{
-					j -> is_sink = 0;
+					j -> is_sink = false;
 					j -> parent = a -> sister;
 					j -> TS = i -> TS;
 					j -> DIST = i -> DIST + 1;
@@ -539,7 +539,7 @@ template <typename captype, typename tcaptype, typename flowtype>
 				j = a -> head;
 				if (!j->parent)
 				{
-					j -> is_sink = 1;
+					j -> is_sink = true;
 					j -> parent = a -> sister;
 					j -> TS = i -> TS;
 					j -> DIST = i -> DIST + 1;

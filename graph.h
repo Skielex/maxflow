@@ -266,7 +266,7 @@ public:
 	void remove_from_changed_list(node_id i) 
 	{ 
 		assert(i>=0 && i<node_num && nodes[i].is_in_changed_list); 
-		nodes[i].is_in_changed_list = 0;
+		nodes[i].is_in_changed_list = false;
 	}
 
 
@@ -290,9 +290,9 @@ private:
 								//   (or to itself if it is the last node in the list)
 		long long	TS;			// timestamp showing when DIST was computed
 		int			DIST;		// distance to the terminal
-		int			is_sink : 1;	// flag showing whether the node is in the source or in the sink tree (if parent!=NULL)
-		int			is_marked : 1;	// set by mark_node()
-		int			is_in_changed_list : 1; // set by maxflow if 
+		bool		is_sink : true;	// flag showing whether the node is in the source or in the sink tree (if parent!=NULL)
+		bool		is_marked : true;	// set by mark_node()
+		bool		is_in_changed_list : true; // set by maxflow if 
 
 		tcaptype	tr_cap;		// if tr_cap > 0 then tr_cap is residual capacity of the arc SOURCE->node
 								// otherwise         -tr_cap is residual capacity of the arc node->SINK 
@@ -508,7 +508,7 @@ template <typename captype, typename tcaptype, typename flowtype>
 		queue_last[1] = i;
 		i -> next = i;
 	}
-	i->is_marked = 1;
+	i->is_marked = true;
 }
 
 
