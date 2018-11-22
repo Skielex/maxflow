@@ -281,6 +281,7 @@ public:
 private:
 	// internal variables and functions
 
+# pragma pack (1)
 	struct node
 	{
 		arc			*first;		// first outcoming arc
@@ -290,13 +291,13 @@ private:
 								//   (or to itself if it is the last node in the list)
 		long long	TS;			// timestamp showing when DIST was computed
 		int			DIST;		// distance to the terminal
-		bool		is_sink : true;	// flag showing whether the node is in the source or in the sink tree (if parent!=NULL)
-		bool		is_marked : true;	// set by mark_node()
-		bool		is_in_changed_list : true; // set by maxflow if 
 
 		tcaptype	tr_cap;		// if tr_cap > 0 then tr_cap is residual capacity of the arc SOURCE->node
 								// otherwise         -tr_cap is residual capacity of the arc node->SINK 
 
+		bool		is_sink : true;	// flag showing whether the node is in the source or in the sink tree (if parent!=NULL)
+		bool		is_marked : true;	// set by mark_node()
+		bool		is_in_changed_list : true; // set by maxflow if 
 	};
 
 	struct arc
@@ -307,6 +308,7 @@ private:
 
 		captype		r_cap;		// residual capacity
 	};
+# pragma pack ()
 
 	struct nodeptr
 	{
