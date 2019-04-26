@@ -516,11 +516,7 @@ template <typename captype, typename tcaptype, typename flowtype>
 {
 	// Sisters are always ajacent.
 	// We calculate the arc number. If it's even the sister is next. Uneven the sister i previous.
-	if (((a - arcs)) % 2 == 0) {
-		return a + 1;
-	} else {
-		return a - 1;
-	}
+	return a + 1 - 2 * ((a - arcs) % 2);
 }
 
 #endif
