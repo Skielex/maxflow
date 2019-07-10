@@ -514,7 +514,7 @@ template <typename captype, typename tcaptype, typename flowtype>
 template <typename captype, typename tcaptype, typename flowtype> 
 	inline typename Graph<captype,tcaptype,flowtype>::arc* Graph<captype,tcaptype,flowtype>::get_sister_arc(arc* a) 
 {
-	// Sisters are always ajacent.
+	// Sisters are always adjacent.
 	// We calculate the arc number. If it's even the sister is next. Uneven the sister i previous.
 	return a + 1 - 2 * ((a - arcs) % 2);
 }
