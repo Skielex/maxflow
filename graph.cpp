@@ -118,7 +118,6 @@ template <typename captype, typename tcaptype, typename flowtype>
 		for (a=arcs; a<arc_last; a++)
 		{
 			if (a->next) a->next = (arc*) ((char*)a->next + (((char*) arcs) - ((char*) arcs_old)));
-			a->sister = (arc*) ((char*)a->sister + (((char*) arcs) - ((char*) arcs_old)));
 		}
 	}
 }

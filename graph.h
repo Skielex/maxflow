@@ -178,6 +178,7 @@ public:
 	typedef arc* arc_id;
 	arc_id get_first_arc();
 	arc_id get_next_arc(arc_id a);
+	arc_id get_sister_arc(arc_id a);
 
 	// other functions for reading graph structure
 	int get_node_num() { return node_num; }
@@ -304,7 +305,6 @@ private:
 	{
 		node		*head;		// node the arc points to
 		arc			*next;		// next arc with the same originating node
-		arc			*sister;	// reverse arc
 
 		captype		r_cap;		// residual capacity
 	};
@@ -424,8 +424,6 @@ template <typename captype, typename tcaptype, typename flowtype>
 	node* i = nodes + _i;
 	node* j = nodes + _j;
 
-	a -> sister = a_rev;
-	a_rev -> sister = a;
 	a -> next = i -> first;
 	i -> first = a;
 	a_rev -> next = j -> first;
@@ -452,7 +450,7 @@ template <typename captype, typename tcaptype, typename flowtype>
 	inline void Graph<captype,tcaptype,flowtype>::get_arc_ends(arc* a, node_id& i, node_id& j)
 {
 	assert(a >= arcs && a < arc_last);
-	i = (node_id) (a->sister->head - nodes);
+	i = (node_id) (get_sister_arc(a)->head - nodes);
 	j = (node_id) (a->head - nodes);
 }
 
@@ -513,5 +511,12 @@ template <typename captype, typename tcaptype, typename flowtype>
 	i->is_marked = true;
 }
 
+template <typename captype, typename tcaptype, typename flowtype> 
+	inline typename Graph<captype,tcaptype,flowtype>::arc* Graph<captype,tcaptype,flowtype>::get_sister_arc(arc* a) 
+{
+	// Sisters are always adjacent.
+	// We calculate the arc number. If it's even the sister is next. Uneven the sister i previous.
+	return a + 1 - 2 * ((a - arcs) % 2);
+}
 
 #endif
